@@ -1,0 +1,116 @@
+import sqlite3
+import os
+import random
+from logger import throw_error
+
+def get_lists():
+    connection = sqlite3.connect("data/playlists.db")
+    cursor = connection.cursor()
+    
+    tables = []
+
+    cursor.execute("""
+        SELECT name FROM sqlite_master WHERE type='table'
+    """)
+    dumb_tables = cursor.fetchall()
+
+    for touple in dumb_tables:
+        tables.append(touple[0])
+
+    connection.close()
+    return tables
+
+def create_playlist(name):
+
+    if name in get_lists():
+        throw_error("Playlist already exists!")
+        return
+
+
+    connection = sqlite3.connect("data/playlists.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        CREATE TABLE {name} (
+            title text,
+            url text
+        )
+    """.format(name=name))
+
+    connection.commit()
+    connection.close()
+
+def add_song(list_name, song_title, song_url):
+    connection = sqlite3.connect("data/playlists.db")
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        INSERT INTO {list_name} VALUES (?,?)
+    """.format(list_name=list_name), (song_title, song_url))
+
+    connection.commit()
+    connection.close()
+
+def get_list(playlist):
+    connection = sqlite3.connect("data/playlists.db")
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT
+                title, url
+            FROM
+                {playlist}
+        """.format(playlist=playlist))
+
+        content = cursor.fetchall()
+
+        connection.close()
+        return content
+    except:
+        throw_error("NO SUCH PLAYLIST")
+        connection.close()
+
+def play_list(list, start = -318, shuffle = False):
+    if not list:
+        return
+
+    if start > 0:
+        start = start - 1
+
+    if shuffle == False:
+        index = 0
+        for song in list:
+            if index < start:
+                index = index + 1
+                continue
+            index = index + 1
+
+            print("")
+            print(song[0])
+            print("")
+
+            os.system("mpv {url} --no-video".format(url=song[1]))
+    else:
+
+        indexes = [*range(0, len(list))]
+        if start >= 0:
+            indexes.remove(start)
+
+        random.shuffle(indexes)
+        if start >= 0:
+            indexes = [start] + indexes
+
+        #print(indexes)
+
+        for index in indexes:
+            print("")
+            print(list[index][0])
+            print("")
+
+            os.system("mpv {url} --no-video".format(url=list[index][1]))
+
+
+#create_playlist("Test")
+#play_list(get_list("Chill"), shuffle=True)
+#add_song(list_name="Chill", song_title="Golden Ridge (Golden Feather Mix)", song_url="https://youtu.be/AgDYV_IbPuo")
