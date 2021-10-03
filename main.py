@@ -17,30 +17,59 @@ if __name__ == "__main__":
 
 
     while not action == "quit" and not action == "q":
+
+        if not " " in action or action.startswith(" "): #or action.endswith(" "):
+            invalid_input = True
+        else:
+            invalid_input = False
        
         if action.startswith("search"):
-            search_results = search(action.split(" ", 1)[1])
+            if invalid_input:
+                throw_error("INVALID INPUT")
+            else:
+                search_results = search(action.split(" ", 1)[1])
 
         if action.startswith("play"):
-            play(args = action.split(" ", 1)[1], search_results=search_results)
+            if invalid_input:
+                throw_error("INVALID INPUT")
+            else:
+                play(args = action.split(" ", 1)[1], search_results=search_results)
         
         if action.startswith("cd"):
-            search_results = change_directory(args = action.split(" ", 1)[1], search_results = search_results)
+            if invalid_input:
+                throw_error("INVALID INPUT")
+            else:
+                search_results = change_directory(args = action.split(" ", 1)[1], search_results = search_results)
 
         if action.startswith("mklist"):
-            make_list(action.split(" ")[1])
+            if invalid_input:
+                throw_error("INVALID INPUT")
+            else:
+                make_list(action.split(" ")[1])
 
         if action.startswith("list"):
             if " " in action:
-                print_list(action.split(" ")[1])
+                if action.endswith(" "):
+                    throw_error("INVALID INPUT")
+                else:
+                    print_list(action.split(" ")[1])
             else:
                 print_lists()
 
         if action.startswith("add"):
-            add_to_list(action.split(" ", maxsplit=1)[1], search_results)
+            if invalid_input:
+                throw_error("INVALID INPUT")
+            else:
+                add_to_list(action.split(" ", maxsplit=1)[1], search_results)
 
         if action.startswith("clear"):
             os.system("clear")
+
+        if action.startswith("remove"):
+            if invalid_input:
+                throw_error("INVALID INPUT")
+            else:
+                remove_song(action.split(" ", maxsplit=1)[1])
 
         print("")
         action = input(">> ")

@@ -71,7 +71,7 @@ def get_list(playlist):
         throw_error("NO SUCH PLAYLIST")
         connection.close()
 
-def play_list(list, start = -318, shuffle = False):
+def play_list(list, start = -318, shuffle = False, video=False):
     if not list:
         return
 
@@ -90,7 +90,11 @@ def play_list(list, start = -318, shuffle = False):
             print(song[0])
             print("")
 
-            os.system("mpv {url} --no-video".format(url=song[1]))
+            if video:
+                os.system("mpv {url}".format(url=song[1]))
+                return
+            else:
+                os.system("mpv {url} --no-video".format(url=song[1]))
     else:
 
         indexes = [*range(0, len(list))]
@@ -107,9 +111,26 @@ def play_list(list, start = -318, shuffle = False):
             print("")
             print(list[index][0])
             print("")
+            
+            if video:
+                os.system("mpv {url}".format(url=list[index][1]))
+                return
+            else:
+                os.system("mpv {url} --no-video".format(url=list[index][1]))
 
-            os.system("mpv {url} --no-video".format(url=list[index][1]))
+def remove_song_from_list(list_name, song_name):
+    connection = sqlite3.connect("data/playlists.db")
+    cursor = connection.cursor()
 
+    cursor.execute("""
+        DELETE FROM '{list_name}' WHERE title = ?
+    """.format(list_name = str(list_name)),  (str(song_name), ))
+
+
+    connection.commit()
+    connection.close()    
+
+#   remove_song("Songs", "IMPORTANT SONG")
 
 #create_playlist("Test")
 #play_list(get_list("Chill"), shuffle=True)

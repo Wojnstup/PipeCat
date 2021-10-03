@@ -66,7 +66,6 @@ def play(args, search_results = []):
             return
     elif args.startswith("list"):
         args = args.split(" ", maxsplit=1)[1]
-        
         list_args = args.split(" ")
 
         name = list_args[0]
@@ -82,11 +81,16 @@ def play(args, search_results = []):
  
 
         playlist = playlists.get_list(name)
+        if "video" in args:
+            playlists.play_list(list=playlist, start=start, shuffle=shuffle, video=True)
         playlists.play_list(list=playlist, start=start, shuffle=shuffle)
 
     else:
         try:
-            os.system("mpv " + args + " --no-video")
+            if "video" in args:
+                os.system("mpv " + args)
+            else:
+                os.system("mpv " + args + " --no-video")
         except:
             throw_error("GIVE A VALID URL")
     
@@ -113,6 +117,9 @@ def change_directory(args, search_results=[]):
     return search_results
        
 def make_list(name):
+    if " " in name:
+        throw_error("NO SPACES ALLOWED")
+        return
     playlists.create_playlist(name)
 
 def print_list(name):
@@ -144,3 +151,15 @@ def add_to_list(args, search_results = []):
 
     title = input("Give the song a title: ")
     playlists.add_song(list_name=args[0], song_title=title, song_url=link)
+
+def remove_song(args):
+    if not " " in args:
+        throw_error("Syntax: 'remove <list_name> <song_name>'")
+
+    arguments = args.split(" ", maxsplit=1)
+    list_name = arguments[0]
+    song_name = arguments[1]
+
+    print("You are about to remove {song} from {list_name}.".format(song=song_name, list_name=list_name))
+    if input("Print 'yes' if you're sure: ") == "yes":
+        playlists.remove_song_from_list(list_name, song_name)
