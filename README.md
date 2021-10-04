@@ -11,5 +11,9 @@ DEPENDENCIES:
   <li>an audio server</li>
   <li>a kernel</li>
 </ul>
+<h3>
+  You can install all the pip3 requirements by running 'pip3 install -r requirements.txt'  
+</h3>
+
 
 After launching main.py in your terminal, type in 'man' to print a manual on how to use the program.
