@@ -122,16 +122,12 @@ def remove_song_from_list(list_name, song_name):
     connection = sqlite3.connect("data/playlists.db")
     cursor = connection.cursor()
 
-    cursor.execute("""
-        DELETE FROM '{list_name}' WHERE title = ?
-    """.format(list_name = str(list_name)),  (str(song_name), ))
-
+    try:
+        cursor.execute("""
+            DELETE FROM '{list_name}' WHERE title = ?
+        """.format(list_name = str(list_name)),  (str(song_name), ))
+    except:
+        throw_error("NO SUCH LIST")
 
     connection.commit()
     connection.close()    
-
-#   remove_song("Songs", "IMPORTANT SONG")
-
-#create_playlist("Test")
-#play_list(get_list("Chill"), shuffle=True)
-#add_song(list_name="Chill", song_title="Golden Ridge (Golden Feather Mix)", song_url="https://youtu.be/AgDYV_IbPuo")

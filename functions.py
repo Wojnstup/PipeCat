@@ -21,7 +21,9 @@ def search(command):
     if command.startswith("audio"):
         results = VideosSearch(query=query, limit=max_results).result()["result"]
         for i in results:
-            print(str(index) + ". " + i['title'])
+            print(str(index) + ". " + i['title'] + " - " + i["channel"]["name"])
+            
+
             search_results.append("https://www.youtube.com/watch?v=" + i['id'])
             index = index + 1
 
@@ -29,12 +31,19 @@ def search(command):
         results = ChannelsSearch(query=query, limit=max_results).result()["result"]
         for i in results:
             print(str(index) + ". " + i['title'])
-            search_results.append(i["link"])
+            
+            channels = ChannelsSearch(query=query).result()["result"]
+            for channel in channels:
+                playlist_id = channel["id"]
+                playlist_id = playlist_id[0:1] + "U" + playlist_id[2: ]
+                url = "https://www.youtube.com/playlist?list=" + playlist_id
+                search_results.append(url)
+
             index = index + 1
     elif command.startswith("list"):
         results = PlaylistsSearch(query=query, limit=max_results).result()["result"]
         for i in results:
-            print(str(index) + ". " + i['title'])
+            print(str(index) + ". " + i['title'] + " - " + i["channel"]["name"])
             search_results.append("https://www.youtube.com/playlist?list=" + i['id'])
             index = index + 1
 
@@ -96,23 +105,20 @@ def play(args, search_results = []):
     
 def change_directory(args, search_results=[]):
     if search_results == []:
+        throw_error("Search for something first!")
         return
     
-    directory = args.split(" ", 1)[1]
-
     contents = []
-
-    if args.startswith("list"):
-        try:
-            results = Playlist(search_results[int(directory) - 1]).videos
-            index = 1
-            for video in results:
-                print(str(index) + ". " + video["title"])
-                contents.append("https://www.youtube.com/watch?v=" + video["id"])
-                index = index + 1
-            return contents
-        except:
-            print("Syntax: 'cd list 2'")
+    try:
+        results = Playlist(search_results[int(args) - 1]).videos
+        index = 1
+        for video in results:
+            print(str(index) + ". " + video['title'] + " - " + video["channel"]["name"])
+            contents.append("https://www.youtube.com/watch?v=" + video["id"])
+            index = index + 1
+        return contents
+    except:
+        print("Syntax: 'cd 2'")
     
     return search_results
        

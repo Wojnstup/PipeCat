@@ -1,7 +1,6 @@
-from youtube_dl import YoutubeDL
-from youtube_search import YoutubeSearch
 from logger import throw_error
 from functions import *
+from manual import * 
 import os
 import pyfiglet
 
@@ -70,6 +69,9 @@ if __name__ == "__main__":
                 throw_error("INVALID INPUT")
             else:
                 remove_song(action.split(" ", maxsplit=1)[1])
+
+        if action.startswith("man"):
+            print_manual()
 
         print("")
         action = input(">> ")
