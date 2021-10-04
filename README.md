@@ -7,6 +7,9 @@ DEPENDENCIES:
 <ul>
   <li>pip3 install youtube-dl youtube-search-python pyfiglet</li>
   <li>mpv has to be installed - check your distro's install method</li>
+  <li>python3</li>
+  <li>an audio server</li>
+  <li>a kernel</li>
 </ul>
 
 After launching main.py in your terminal, type in 'man' to print a manual on how to use the program.
