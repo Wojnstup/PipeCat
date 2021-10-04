@@ -17,3 +17,5 @@ DEPENDENCIES:
 
 
 After launching main.py in your terminal, type in 'man' to print a manual on how to use the program.
+
+You can replace main.py with your own script - maybe you want a GUI, or keyboard shortcuts from anywhare using the keyboard library? I made the program modular so if you throw away main.py you discard only the input method.
