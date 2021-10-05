@@ -94,7 +94,7 @@ def play_list(list, start = -318, shuffle = False, video=False):
                 os.system("mpv {url}".format(url=song[1]))
                 return
             else:
-                os.system("mpv {url} --no-video".format(url=song[1]))
+                os.system("mpv --no-video {url}".format(url=song[1]))
     else:
 
         indexes = [*range(0, len(list))]
@@ -116,7 +116,7 @@ def play_list(list, start = -318, shuffle = False, video=False):
                 os.system("mpv {url}".format(url=list[index][1]))
                 return
             else:
-                os.system("mpv {url} --no-video".format(url=list[index][1]))
+                os.system("mpv --no-video {url}".format(url=list[index][1]))
 
 def remove_song_from_list(list_name, song_name):
     connection = sqlite3.connect("data/playlists.db")

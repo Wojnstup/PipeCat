@@ -68,7 +68,7 @@ def play(args, search_results = []):
             if "video" in args:
                 os.system("mpv " + str(search_results[int(args.split(" ")[1]) - 1 ]))
             else:
-                os.system("mpv " + str(search_results[int(args.split(" ")[1]) - 1 ]) + " --no-video")
+                os.system("mpv " + "--no-video " + str(search_results[int(args.split(" ")[1]) - 1 ]))
 
         except:
             throw_error("GIVE A VALID INDEX")
@@ -99,7 +99,7 @@ def play(args, search_results = []):
             if "video" in args:
                 os.system("mpv " + args)
             else:
-                os.system("mpv " + args + " --no-video")
+                os.system("mpv " + "--no-video " + args)
         except:
             throw_error("GIVE A VALID URL")
     
@@ -130,9 +130,11 @@ def make_list(name):
 
 def print_list(name):
     index = 1
-    for song in playlists.get_list(name):
-        print(str(index) + ". " + song[0])
-        index = index + 1 
+    list_songs = playlists.get_list(name)
+    if list_songs != None:
+        for song in list_songs:
+            print(str(index) + ". " + song[0])
+            index = index + 1 
 
 def print_lists():
     lists = playlists.get_lists()
