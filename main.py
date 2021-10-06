@@ -32,7 +32,7 @@ if __name__ == "__main__":
             if invalid_input:
                 throw_error("INVALID INPUT")
             else:
-                play(args = action.split(" ", 1)[1], search_results=search_results)
+                play(args = action.split(" ", 1)[1], search_results=search_results[:])
         
         if action.startswith("cd"):
             if invalid_input:

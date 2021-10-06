@@ -65,10 +65,28 @@ def play(args, search_results = []):
                 throw_error("INDEX OUT OF RANGE")
                 return
             
-            if "video" in args:
-                os.system("mpv " + str(search_results[int(args.split(" ")[1]) - 1 ]))
+            if "shuffle" in args:
+                first_link = search_results[int(args.split(" ")[1]) - 1 ]
+                search_results.remove(first_link)
+                playlists.random.shuffle(search_results)
+                search_results = [first_link] + search_results
+
+            if "nostop" in args:
+                index = 1 
+                for link in search_results:
+                    if index >= int(args.split(" ")[1]):
+                        if "video" in args:
+                            os.system("mpv " + str(link))
+                        else:
+                            os.system("mpv " + str(link) + " --no-video")
+                    index = index + 1
+
+
             else:
-                os.system("mpv " + str(search_results[int(args.split(" ")[1]) - 1 ]) + " --no-video")
+                if "video" in args:
+                    os.system("mpv " + str(search_results[int(args.split(" ")[1]) - 1 ]))
+                else:
+                    os.system("mpv " + str(search_results[int(args.split(" ")[1]) - 1 ]) + " --no-video")
 
         except:
             throw_error("GIVE A VALID INDEX")
