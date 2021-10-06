@@ -130,9 +130,12 @@ def make_list(name):
 
 def print_list(name):
     index = 1
-    for song in playlists.get_list(name):
-        print(str(index) + ". " + song[0])
-        index = index + 1 
+    try:
+        for song in playlists.get_list(name):
+            print(str(index) + ". " + song[0])
+            index = index + 1
+    except:
+        return
 
 def print_lists():
     lists = playlists.get_lists()
