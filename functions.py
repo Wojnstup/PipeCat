@@ -71,7 +71,7 @@ def play(args, search_results = []):
                 playlists.random.shuffle(search_results)
                 search_results = [first_link] + search_results
 
-            if "nostop" in args:
+            if "nostop" in args and not "shuffle" in args:
                 index = 1 
                 for link in search_results:
                     if index >= int(args.split(" ")[1]):
@@ -80,6 +80,12 @@ def play(args, search_results = []):
                         else:
                             os.system("mpv " + str(link) + " --no-video")
                     index = index + 1
+            elif "nostop" in args and "shuffle" in args:
+                for link in search_results:
+                    if "video" in args:
+                        os.system("mpv " + str(link))
+                    else:
+                        os.system("mpv " + str(link) + " --no-video")
 
 
             else:
