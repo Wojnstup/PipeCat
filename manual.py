@@ -18,6 +18,16 @@ def print_manual():
     print("  play <url> {video}  <- plays an url audio. This doesn't have to be a Youtube url. It will play audio only unless you type in video")
     print("  play index <index> {video} {nostop} {shuffle}  <- plays an index of a search query. You find those indexes after you search for something or open a playlist or a channel with 'cd'. Nostop argument makes it so the playback will continue after the first song/video ends. Shuffle will shuffle the videos and works only with {nostop}")
     print("  play list <name_of_list> index<index> {shuffle}   <- plays from offline playlist <name_of_list> starting on index <index> and there's an option to shuffle. Notice no space between index and <index>")
+    print("  shuffle <index>  <- shuffles a YouTube playlist, a channel or an album, designed to be quick to type")
+
+    print("")
+    print("")
+
+    print("Albums:")
+    print("Albums are online playlists, channels or songs stored in a database, so you won't have to search for them when you want to listen to them.")
+    print("  album  <- lists all the albums, also replaces search results with them, so you can use 'cd', 'play index', or 'shuffle' on them.")
+    print("  addbum <index> <- add the element <index> from search results as an album.")
+
 
     print("")
     print("")

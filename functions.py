@@ -3,6 +3,7 @@ from youtubesearchpython import VideosSearch, ChannelSearch, PlaylistsSearch, Ch
 from logger import throw_error
 import os
 import playlists
+import albums
 
 ### CONFIG ###
 max_results = 10
@@ -196,3 +197,49 @@ def remove_song(args):
     print("You are about to remove {song} from {list_name}.".format(song=song_name, list_name=list_name))
     if input("Print 'yes' if you're sure: ") == "yes":
         playlists.remove_song_from_list(list_name, song_name)
+
+def print_albums():
+    albums_list = albums.get_albums()
+
+    albums_urls = []
+    
+    index = 1
+    for album in albums_list:
+        print(str(index) + ". " + album[0])
+        albums_urls.append(album[1])
+        index = index + 1
+    
+    return albums_urls
+
+def add_album(index, search_results=[]):
+    if not search_results:
+        throw_error("Search for something first!")
+        return
+    try:
+        if int(index) > len(search_results) or int(index) < 1:
+            throw_error("Index out of range!")
+            return
+    except:
+        throw_error("Wrong index!")
+        return
+
+    name = input("Name of the album: ")
+    albums.add_album(name, search_results[int(index) - 1])
+
+def shuffle(index, search_results = []):
+    if not search_results:
+        throw_error("Search for something first!")
+        return
+    try:
+        if int(index) > len(search_results) or int(index) < 1:
+            throw_error("Index out of range!")
+            return
+    except:
+        throw_error("Wrong index!")
+        return
+
+    songs = change_directory(args=index, search_results=search_results[:])
+    playlists.random.shuffle(songs)
+
+    for song in songs:
+        os.system("mpv --no-video '{url}'".format(url=song))

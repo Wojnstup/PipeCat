@@ -55,7 +55,7 @@ if __name__ == "__main__":
             else:
                 print_lists()
 
-        if action.startswith("add"):
+        if action.startswith("add") and not action.startswith("addbum"):
             if invalid_input:
                 throw_error("INVALID INPUT")
             else:
@@ -72,6 +72,15 @@ if __name__ == "__main__":
 
         if action.startswith("man"):
             print_manual()
+
+        if action.startswith("album"):
+            search_results = print_albums()
+
+        if action.startswith("addbum"):
+            add_album(search_results=search_results[:] ,index = action.replace("addbum ", ""))
+
+        if action.startswith("shuffle"):
+            shuffle(search_results=search_results[:], index= action.replace("shuffle ", ""))
 
         print("")
         action = input(">> ")
