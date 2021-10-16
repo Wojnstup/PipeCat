@@ -72,7 +72,10 @@ if __name__ == "__main__":
 
         if action.startswith("man"):
             print_manual()
-
+            
+        if action.startswith("help"):
+            print_manual()
+        
         if action.startswith("album"):
             search_results = print_albums()
 
