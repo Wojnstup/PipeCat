@@ -18,6 +18,7 @@ def print_manual():
     print("  play <url> {video}  <- plays an url audio. This doesn't have to be a Youtube url. It will play audio only unless you type in video")
     print("  play index <index> {video} {nostop} {shuffle}  <- plays an index of a search query. You find those indexes after you search for something or open a playlist or a channel with 'cd'. Nostop argument makes it so the playback will continue after the first song/video ends. Shuffle will shuffle the videos and works only with {nostop}")
     print("  play list <name_of_list> index<index> {shuffle}   <- plays from offline playlist <name_of_list> starting on index <index> and there's an option to shuffle. Notice no space between index and <index>")
+    print("  play queue <index> <index> <index> ...    <- plays the songs of given index one after the other")
     print("  shuffle <index>  <- shuffles a YouTube playlist, a channel or an album, designed to be quick to type")
 
     print("")
@@ -38,9 +39,21 @@ def print_manual():
     print(" ")
     print("  mklist <name>   <- creates an offline playlist in 'data/playlists.db'")
     print("  list   <- prints the names of all your offline playlists")
+    print("  cd list <name>  <- replaces your search results with the contents of the list, exactly like you would cd into a channel or playlist")
     print("  list <name>   <- prints the contents of an offline list. You can then play any song from it with 'play index <index> {video}'")
     print("  add <name_of_list> index <index>  <- add a song with a given index to a playlist")
     print("  remove <list_name> <song_name>  <- remove a song from a list")
+
+
+    print("")
+    print("")
+
+    print("Queue:")
+    print("Queue up your songs, creating a \"temporary playlist\" ")
+    print("")
+    print("  queue <index>  <- adds a song with given index to your queue")
+    print("  queue list    <- lists the songs in your queue (it only lists urls however)")
+    print("  queue clear   <- clears your queue")
 
     print("")
     print("")

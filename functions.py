@@ -5,6 +5,8 @@ import os
 import playlists
 import albums
 
+queue = []
+
 ### CONFIG ###
 max_results = 10
 ydl_opts = {}
@@ -74,20 +76,25 @@ def play(args, search_results = []):
 
             if "nostop" in args and not "shuffle" in args:
                 index = 1 
+                links_command = " "
                 for link in search_results:
                     if index >= int(args.split(" ")[1]):
-                        if "video" in args:
-                            os.system("mpv " + str(link))
-                        else:
-                            os.system("mpv " + str(link) + " --no-video")
+                        links_command = links_command + str(link) + " "
                     index = index + 1
+                if "video" in args:
+                    os.system("mpv" + links_command)
+                else:
+                    os.system("mpv" + links_command + "--no-video")
 
             elif "nostop" in args and "shuffle" in args:
+                links_command = " "
                 for link in search_results:
-                    if "video" in args:
-                        os.system("mpv " + str(link))
-                    else:
-                        os.system("mpv " + str(link) + " --no-video")
+                    links_command = links_command + str(link) + " "
+                
+                if "video" in args:
+                    os.system("mpv " + links_command)
+                else:
+                    os.system("mpv " + links_command + " --no-video")
 
 
             else:
@@ -125,17 +132,28 @@ def play(args, search_results = []):
         if search_results == []:
             throw_error("SEARCH FOR SOMETHING FIRST")
             return
+        
+        if args == "queue":
+            links_command = " "
+            for url in queue:
+                links_command = links_command + url + " "
+
+            os.system("mpv" + links_command)
+            return
 
         try:
             args = args.split(" ", maxsplit=1)[1]
             
             print(args)
-            links_command = " "
+           
         except:
             print("ERROR: Something went wrong lol")
+        links_command = " "
         for index in args.split(" "):
-            links_command = links_command + search_results[int(index) - 1] + " "    
-            
+            try:
+                links_command = links_command + search_results[int(index) - 1] + " "    
+            except:
+                print(index)
         print("done")
         os.system("mpv" + links_command)
        
@@ -281,3 +299,18 @@ def shuffle(index, search_results = []):
 
     for song in songs:
         os.system("mpv --no-video '{url}'".format(url=song))
+
+def add_or_list_queue(search_results = [], args = "" ):
+    global queue
+    if args == "list":
+        for url in queue:
+            print(url)
+    elif args == "clear":
+        queue = []
+        print("Queue cleared.")
+    else:
+        try:
+            queue.append(search_results[int(args) - 1])
+            print("Added to queue.")
+        except:
+            print("Wrong input!")

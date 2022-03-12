@@ -84,6 +84,9 @@ if __name__ == "__main__":
 
         if action.startswith("shuffle"):
             shuffle(search_results=search_results[:], index= action.replace("shuffle ", ""))
+        
+        if action.startswith("queue"):
+            add_or_list_queue(search_results=search_results[:], args = action.replace("queue ", ""))
 
         print("")
         action = input(">> ")
