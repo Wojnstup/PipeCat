@@ -138,7 +138,7 @@ def play(args, search_results = []):
             for url in queue:
                 links_command = links_command + url + " "
 
-            os.system("mpv" + links_command)
+            os.system("mpv" + links_command + " --no-video")
             return
 
         try:
@@ -155,7 +155,7 @@ def play(args, search_results = []):
             except:
                 print(index)
         print("done")
-        os.system("mpv" + links_command)
+        os.system("mpv" + links_command + " --no-video")
        
 
     else:
