@@ -81,6 +81,7 @@ def play(args, search_results = []):
                         else:
                             os.system("mpv " + str(link) + " --no-video")
                     index = index + 1
+
             elif "nostop" in args and "shuffle" in args:
                 for link in search_results:
                     if "video" in args:
@@ -119,6 +120,26 @@ def play(args, search_results = []):
             playlists.play_list(list=playlist, start=start, shuffle=shuffle, video=True)
         playlists.play_list(list=playlist, start=start, shuffle=shuffle)
 
+    
+    elif args.startswith("queue"):
+        if search_results == []:
+            throw_error("SEARCH FOR SOMETHING FIRST")
+            return
+
+        try:
+            args = args.split(" ", maxsplit=1)[1]
+            
+            print(args)
+            links_command = " "
+        except:
+            print("ERROR: Something went wrong lol")
+        for index in args.split(" "):
+            links_command = links_command + search_results[int(index) - 1] + " "    
+            
+        print("done")
+        os.system("mpv" + links_command)
+       
+
     else:
         try:
             if "video" in args:
@@ -127,25 +148,42 @@ def play(args, search_results = []):
                 os.system("mpv " + args + " --no-video")
         except:
             throw_error("GIVE A VALID URL")
+
     
 def change_directory(args, search_results=[]):
-    if search_results == []:
-        throw_error("Search for something first!")
-        return
+    if args.startswith("list"):
     
-    contents = []
-    try:
-        results = Playlist(search_results[int(args) - 1]).videos
+        content = playlists.get_list(args.split(" ")[1])
+        
+        contents = []
         index = 1
-        for video in results:
-            print(str(index) + ". " + video['title'] + " - " + video["channel"]["name"])
-            contents.append("https://www.youtube.com/watch?v=" + video["id"])
+        for song in content:
+            contents.append(song[1])
+            print(str(index) + ". " + song[0])
             index = index + 1
+        
         return contents
-    except:
-        print("Syntax: 'cd 2'")
-    
-    return search_results
+
+
+    else:
+
+        if search_results == []:
+            throw_error("Search for something first!")
+            return
+        
+        contents = []
+        try:
+            results = Playlist(search_results[int(args) - 1]).videos
+            index = 1
+            for video in results:
+                print(str(index) + ". " + video['title'] + " - " + video["channel"]["name"])
+                contents.append("https://www.youtube.com/watch?v=" + video["id"])
+                index = index + 1
+            return contents
+        except:
+            print("Syntax: 'cd 2'")
+        
+        return search_results
        
 def make_list(name):
     if " " in name:
