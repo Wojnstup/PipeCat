@@ -2,13 +2,13 @@
 A command line Youtube music player written in python. It's an app written for Linux. It also supports offline playlists that are stored in a playlists.db file. 
 
 FEATURES:
--private playlists stored on your device (no need for Google account)
--song queue
--creating shortcuts for YouTube playlists and channels
--video and audio playback
--mixes based on your playlists
--it can also run in Termux on Android devices to serve you music (audio only) on the go.
-
+  <li>private playlists stored on your device (no need for Google account)</li>
+  <li>song queue</li>
+  <li>creating shortcuts for YouTube playlists and channels</li>
+  <li>video and audio playback</li>
+  <li>mixes based on your playlists</li>
+  <li>it can also run in Termux on Android devices to serve you music (audio only) on the go.</li>
+  
 <h3>Also check out: <a href="https://github.com/Wojnstup/PipeCatTurbo">PipeCatTurbo</a></h3>
 <h2>
 DEPENDENCIES:
