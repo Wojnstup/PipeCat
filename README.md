@@ -4,13 +4,14 @@ A command line Youtube music player written in python. It's an app written for L
 <h2>
 FEATURES:
 </h2>
+<ul>
   <li>private playlists stored on your device (no need for Google account)</li>
   <li>song queue</li>
   <li>creating shortcuts for YouTube playlists and channels</li>
   <li>video and audio playback</li>
   <li>mixes based on your playlists</li>
   <li>it can also run in Termux on Android devices to serve you music (audio only) on the go.</li>
-  
+ </ul>
 <h3>Also check out: <a href="https://github.com/Wojnstup/PipeCatTurbo">PipeCatTurbo</a></h3>
 <h2>
 DEPENDENCIES:
