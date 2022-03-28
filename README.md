@@ -1,7 +1,9 @@
 # PipeCat
 A command line Youtube music player written in python. It's an app written for Linux. It also supports offline playlists that are stored in a playlists.db file. 
 
+<h2>
 FEATURES:
+</h2>
   <li>private playlists stored on your device (no need for Google account)</li>
   <li>song queue</li>
   <li>creating shortcuts for YouTube playlists and channels</li>
