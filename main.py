@@ -88,6 +88,9 @@ if __name__ == "__main__":
         if action.startswith("queue"):
             add_or_list_queue(search_results=search_results[:], args = action.replace("queue ", ""))
 
+        if action.startswith("genmix"):
+            genmix(list_name = action.replace("genmix", ""))
+
         print("")
         action = input(">> ")
         print("")

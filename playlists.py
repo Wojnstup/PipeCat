@@ -1,7 +1,11 @@
 import sqlite3
 import os
 import random
+import requests
+from random import randint
+from youtubesearchpython import Video, ResultMode, Hashtag, VideosSearch
 from logger import throw_error
+
 
 def get_lists():
     connection = sqlite3.connect("data/playlists.db")
@@ -131,3 +135,123 @@ def remove_song_from_list(list_name, song_name):
 
     connection.commit()
     connection.close()    
+
+def extract_tags_from_list(list_name):
+    connection = sqlite3.connect("data/playlists.db")
+    cursor = connection.cursor()
+
+    cursor.execute(""" 
+        SELECT
+            url
+        FROM
+            {playlist}
+    """.format(playlist = list_name))
+
+    urls = cursor.fetchall()
+    tags = [] 
+
+    for url in urls:
+        try:
+            for tag in  Video.getInfo(url[0], mode=ResultMode.json)["keywords"]:
+                tags.append(tag)
+        except:
+            continue
+       
+
+    connection.close()
+    return tags
+
+def get_song_with_tags(tags):
+    tag_num = 3
+
+    tags_index_to_use = []
+    search_term = ""
+
+    for i in range(tag_num):
+        while True:
+            new_index = randint(0, len(tags) - 1)
+            if not new_index in tags_index_to_use:
+                tags_index_to_use.append(new_index)
+                search_term = search_term + str(tags[new_index])
+                break
+
+    
+    try:
+        result = VideosSearch(query=search_term, limit=1).result()["result"][0]
+    except:
+        return False
+    return (result["title"], result["link"])
+
+
+
+def get_all_mixes():
+    connection = sqlite3.connect("data/mix.db")
+    cursor = connection.cursor()
+
+    tables = []
+
+    cursor.execute("""
+        SELECT name FROM sqlite_master WHERE type='table'
+    """)
+    dumb_tables = cursor.fetchall()
+
+    for touple in dumb_tables:
+        tables.append(touple[0])
+    
+    connection.close()
+    return tables
+
+def generate_daily_mix(list_name):
+    connection = sqlite3.connect("data/mix.db")
+    cursor = connection.cursor()
+
+    entries = []
+
+    for i in range(0,10):
+        while True:
+            entry = get_song_with_tags(extract_tags_from_list(list_name))
+            if entry:
+                entries.append(entry)
+                break
+    
+    if not list_name in get_all_mixes():
+        cursor.execute("""
+            CREATE TABLE {name} (
+                title text,
+                url text
+            )
+        """.format(name=list_name))
+    else:
+        cursor.execute("""
+            DELETE FROM {name}
+        """.format(name=list_name))
+    
+
+    cursor.executemany("""
+        INSERT INTO {name} VALUES (?,?)
+    """.format(name=list_name), entries)
+
+
+    connection.commit()
+    connection.close()
+
+def get_mix(mix):
+    connection = sqlite3.connect("data/mix.db")
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT
+                title, url
+            FROM
+                {playlist}
+        """.format(playlist=mix))
+
+        content = cursor.fetchall()
+
+        connection.close()
+        return content
+    except:
+        throw_error("NO SUCH MIX")
+        connection.close()
+

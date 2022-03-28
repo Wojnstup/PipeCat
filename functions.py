@@ -181,7 +181,19 @@ def change_directory(args, search_results=[]):
             index = index + 1
         
         return contents
-
+    
+    elif args.startswith("mix"):
+    
+        content = playlists.get_mix(args.split(" ")[1])
+        
+        contents = []
+        index = 1
+        for song in content:
+            contents.append(song[1])
+            print(str(index) + ". " + song[0])
+            index = index + 1
+        
+        return contents
 
     else:
 
@@ -314,3 +326,7 @@ def add_or_list_queue(search_results = [], args = "" ):
             print("Added to queue.")
         except:
             print("Wrong input!")
+
+def genmix(list_name):
+    print("Generating the mix. This may take two or three minutes...")
+    playlists.generate_daily_mix(list_name.replace(" ", ""))

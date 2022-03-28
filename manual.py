@@ -58,4 +58,9 @@ def print_manual():
     print("")
     print("")
 
+    print("Mixes")
+    print("Generate mixes based on the songs you have in your playlist.")
+    print("  genmix <name_of_your_list>   <- generates a mix based on tags of songs in your playlists and deletes the previous mix for this playlist")
+    print("  cd mix <name>   <-  replaces your search results with the contents of the mix (mix has the same name as the playlist it was generated from)")
+
     print("  man  <- print this manual")
