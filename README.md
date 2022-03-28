@@ -12,6 +12,13 @@ FEATURES:
   <li>mixes based on your playlists</li>
   <li>it can also run in Termux on Android devices to serve you music (audio only) on the go.</li>
  </ul>
+ 
+<h3>
+  To launch, type "python3 main.py"
+</h3>
+<h3>
+  For help, use command "man" or just check the contents of manual.py.  
+</h3>
 <h3>Also check out: <a href="https://github.com/Wojnstup/PipeCatTurbo">PipeCatTurbo</a></h3>
 <h2>
 DEPENDENCIES:
