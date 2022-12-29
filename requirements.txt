@@ -1,3 +1,4 @@
 youtube-dl 
 youtube-search-python
 pyfiglet
+requests
